@@ -1,21 +1,5 @@
-<head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-
-function RandomNCardsOfColor(cards,color,n){
-	return cards.filter(function (card) {
-		return card.color==color;
-	}).sort(() => 0.5 - Math.random()).slice(0, n).map(function (card) {
-	return card.name;
-	})
-}
-
-function MakeLine(cards, color, n){
-	
-	return "<b>"+color+"</b>: "+RandomNCardsOfColor(cards,color,n)+"<br>"
-	
-}
-cards = [
+{
+	cards : [
 		{name:"Magi", color: "Disciple I", set:"ROS"},
 		{name:"Priestess", color: "Disciple I", set:"BOTN"},
 		{name:"Witch", color: "Disciple I", set:"TSAR"},
@@ -123,20 +107,7 @@ cards = [
 		{name:"Officer Sadie Smith", color: "Red", set:"ROTO"},
 		{name:"Servants of Glaaki", color: "Red", set:"ROTO"},
 		{name:"Shoggoth", color: "Red", set:"ROTO"},
-		{name:"Samantha Spade, P.I.", color: "Red", set:"ROTO"}	
+		{name:"Samantha Spade, P.I.", color: "Red", set:"ROTO"},
+		
 	]
-
-
-s = MakeLine(cards,"Disciple I", 1)
-s += MakeLine(cards,"Disciple II", 1)
-s += MakeLine(cards,"Disciple III", 1)
-s += MakeLine(cards,"Red", 6)
-s += MakeLine(cards,"Blue", 3)
-s += MakeLine(cards,"Green", 3)
-s += MakeLine(cards,"Yellow", 3)
-s += MakeLine(cards,"Grey", 3)
-
-document.write(s)
-
-</script>
-</head>
+}
