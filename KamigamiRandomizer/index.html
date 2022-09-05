@@ -6,7 +6,7 @@ function RandomNCardsOfColor(cards,color,n){
 	return cards.filter(function (card) {
 		return card.color==color;
 	}).sort(() => 0.5 - Math.random()).slice(0, n).map(function (card) {
-	return card.name;
+	return card.name + " ("+card.set+")";
 	}).toString().replaceAll(",",", ")
 }
 
