@@ -223,9 +223,7 @@ function GenerateCards(){
 	UsedSets = Array.from(document.getElementsByClassName("set"))
 		.filter(x => x.type=="checkbox" && x.checked)
 		.map(x => x.name)
-	console.log(UsedSets)
 	usedCards = cards.filter(x => UsedSets.includes(x.set))
-	console.log(usedCards)
 	
 	s = ""
 	s += MakeLine("Disciple I", RandomNCardsOfColor(usedCards,"Disciple I",1))
