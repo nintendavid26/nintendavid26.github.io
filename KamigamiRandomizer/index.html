@@ -1,20 +1,33 @@
 <head>
+
+<style>
+input[type='number']{
+    width: 40px;
+	margin-right: 10px
+} 
+</style>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 
 function RandomNCardsOfColor(cards,color,n){
-	return cards.filter(function (card) {
-		return card.color==color;
-	}).sort(() => 0.5 - Math.random()).slice(0, n).map(function (card) {
-	return card.name + " ("+card.set+")";
-	}).toString().replaceAll(",",", ")
+	c = cards
+	.filter(card => card.color==color)
+	.sort(() => 0.5 - Math.random())
+	.slice(0, n);
+	c.sort((a,b)=> a.name < b.name ? -1 : 1)
+	return c
+	.map(card => card.name + " ("+card.set+")")
+	.toString()
+	.replaceAll(",",", ")
 }
 
-function MakeLine(cards, color, n){
+function MakeLine(color, usedCards){
 	
-	return "<b>"+color+"</b>: "+RandomNCardsOfColor(cards,color,n)+"<br>"
+	return "<b>"+color+"</b>: "+usedCards+"<br>"
 	
 }
+
 cards = [
 		{name:"Magi", color: "Disciple I", set:"ROS"},
 		{name:"Priestess", color: "Disciple I", set:"BOTN"},
@@ -126,20 +139,105 @@ cards = [
 		{name:"Samantha Spade, P.I.", color: "Red", set:"ROTO"}	
 	]
 
+sets = cards.map(card=>card.set)
+sets = sets.filter((item, pos)=> sets.indexOf(item) == pos).sort();
+sets = sets.map(function (set) {
+	return {"name":set, "use":true}
+})
 
-s = "<big>"
-s += MakeLine(cards,"Disciple I", 1)
-s += MakeLine(cards,"Disciple II", 1)
-s += MakeLine(cards,"Disciple III", 1)
-s += MakeLine(cards,"Red", 6)
-s += MakeLine(cards,"Blue", 3)
-s += MakeLine(cards,"Green", 3)
-s += MakeLine(cards,"Yellow", 3)
-s += MakeLine(cards,"Grey", 3)
 
-s += "</big>"
+function LoadSets(){
+	
+	sets.forEach(set=>{
+		var x = document.createElement("INPUT");
+		x.setAttribute("type", "checkbox");
+		x.setAttribute("name", set.name);
+		x.setAttribute("checked", set.use);
+		x.setAttribute("class", "set");
+		document.body.appendChild(x)
+		
+		var label = document.createElement('label')
+		label.htmlFor = set.name;
+		label.appendChild(document.createTextNode(set.name));
+		
+		var container = document.getElementById('sets');
+		container.appendChild(x);
+		container.appendChild(label);
+		container.appendChild(document.createElement('br'));
+		}
+	)
+	
+}
 
-document.write(s)
+colors = [
+	{name:"Red", amnt: 6},
+	{name:"Blue", amnt: 3},
+	{name:"Green", amnt: 3},
+	{name:"Yellow", amnt: 3},
+	{name:"Grey", amnt: 3},
+]
+
+function LoadColors(){
+	colors.forEach(color=>{
+		var x = document.createElement("INPUT");
+		x.setAttribute("type", "number");
+		x.setAttribute("name", color.name);
+		x.setAttribute("id", color.name);
+		x.setAttribute("value", color.amnt);
+		x.setAttribute("class", "color");
+		document.body.appendChild(x)
+		
+		var label = document.createElement('label')
+		label.htmlFor = color.name+": ";
+		//label.innerHTML=color.name+": "
+		label.appendChild(document.createTextNode(color.name));
+		
+		var container = document.getElementById('colors');
+		container.appendChild(x);
+		container.appendChild(label);
+		container.appendChild(document.createElement('br'));
+		}
+	)
+}
+
+
+
+function GenerateCards(){
+	
+	UsedSets = Array.from(document.getElementsByClassName("set"))
+		.filter(x => x.type=="checkbox" && x.checked)
+		.map(x => x.name)
+	console.log(UsedSets)
+	usedCards = cards.filter(x => UsedSets.includes(x.set))
+	console.log(usedCards)
+	
+	s = "<big>"
+	s += MakeLine("Disciple I", RandomNCardsOfColor(usedCards,"Disciple I",1))
+	s += MakeLine("Disciple II", RandomNCardsOfColor(usedCards,"Disciple II",1))
+	s += MakeLine("Disciple III", RandomNCardsOfColor(usedCards,"Disciple III",1))
+	colors.forEach( c=>{
+		returnedCards = RandomNCardsOfColor(usedCards,c.name,document.getElementById(c.name).value);
+		s += MakeLine(c.name,returnedCards)
+	})
+	s += "</big>"
+
+	document.getElementById('cards').innerHTML=s
+	window.scrollTo(0, document.body.scrollHeight);
+}
 
 </script>
 </head>
+<body>
+<h><b>Kamigami Randomizer</b></h>
+	<div id="sets"><p4>Sets:</p4><br></div>
+	<br>
+	<div id="colors"><p4></p4><br></div>
+	<div id="cards"></div>
+	<button OnClick="GenerateCards()">Randomize</button>
+	
+	
+</body>
+<script>
+	LoadSets()
+	LoadColors()
+</script>
