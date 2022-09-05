@@ -7,7 +7,7 @@ function RandomNCardsOfColor(cards,color,n){
 		return card.color==color;
 	}).sort(() => 0.5 - Math.random()).slice(0, n).map(function (card) {
 	return card.name;
-	})
+	}).toString().replaceAll(",",", ")
 }
 
 function MakeLine(cards, color, n){
@@ -109,7 +109,7 @@ cards = [
 		{name:"Aries", color: "Red", set:"BOTN"},
 		{name:"Valiant Star", color: "Red", set:"BOTN"},
 		{name:"Byakee", color: "Red", set:"TSAR"},
-		{name:"hounds of Tindalos", color: "Red", set:"TSAR"},
+		{name:"Hounds of Tindalos", color: "Red", set:"TSAR"},
 		{name:"Mi-Go", color: "Red", set:"TSAR"},
 		{name:"Nightgaunt", color: "Red", set:"ITDL"},
 		{name:"Gug", color: "Red", set:"ITDL"},
@@ -127,7 +127,8 @@ cards = [
 	]
 
 
-s = MakeLine(cards,"Disciple I", 1)
+s = "<big>"
+s += MakeLine(cards,"Disciple I", 1)
 s += MakeLine(cards,"Disciple II", 1)
 s += MakeLine(cards,"Disciple III", 1)
 s += MakeLine(cards,"Red", 6)
@@ -135,6 +136,8 @@ s += MakeLine(cards,"Blue", 3)
 s += MakeLine(cards,"Green", 3)
 s += MakeLine(cards,"Yellow", 3)
 s += MakeLine(cards,"Grey", 3)
+
+s += "</big>"
 
 document.write(s)
 
