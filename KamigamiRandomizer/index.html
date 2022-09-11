@@ -33,14 +33,13 @@ function RandomNCardsOfColor(cards,color,n){
 	.slice(0, n);
 	c.sort((a,b)=> a.name < b.name ? -1 : 1)
 	return c
-	.map(card => card.name + " ("+card.set+")")
-	.toString()
-	.replaceAll(",",", ")
 }
 
 function MakeLine(color, usedCards){
-	
-	return "<b>"+color+"</b>: "+usedCards+"<br>"
+	s =	usedCards.map(card => card.name + " ("+card.set+")")
+	.toString()
+	.replaceAll(",",", ")
+	return "<b>"+color+"</b>: "+s+"<br>"
 	
 }
 
@@ -155,6 +154,8 @@ cards = [
 		{name:"Samantha Spade, P.I.", color: "Red", set:"ROTO"}	
 	]
 
+
+selectedCards=[]
 sets = cards.map(card=>card.set)
 sets = sets.filter((item, pos)=> sets.indexOf(item) == pos).sort();
 sets = sets.map(function (set) {
@@ -220,23 +221,55 @@ function LoadColors(){
 
 function GenerateCards(){
 	
+	selectedCards=[]
+	
 	UsedSets = Array.from(document.getElementsByClassName("set"))
 		.filter(x => x.type=="checkbox" && x.checked)
 		.map(x => x.name)
 	usedCards = cards.filter(x => UsedSets.includes(x.set))
 	
-	s = ""
-	s += MakeLine("Disciple I", RandomNCardsOfColor(usedCards,"Disciple I",1))
-	s += MakeLine("Disciple II", RandomNCardsOfColor(usedCards,"Disciple II",1))
-	s += MakeLine("Disciple III", RandomNCardsOfColor(usedCards,"Disciple III",1))
+	selectedCards=selectedCards.concat(RandomNCardsOfColor(usedCards,"Disciple I",1))
+	selectedCards=selectedCards.concat(RandomNCardsOfColor(usedCards,"Disciple II",1))
+	selectedCards=selectedCards.concat(RandomNCardsOfColor(usedCards,"Disciple III",1))
+	//s += MakeLine("Disciple I", RandomNCardsOfColor(usedCards,"Disciple I",1))
+	//s += MakeLine("Disciple II", RandomNCardsOfColor(usedCards,"Disciple II",1))
+	//s += MakeLine("Disciple III", RandomNCardsOfColor(usedCards,"Disciple III",1))
 	colors.forEach( c=>{
-		returnedCards = RandomNCardsOfColor(usedCards,c.name,document.getElementById(c.name).value);
-		s += MakeLine(c.name,returnedCards)
+		selectedCards=selectedCards.concat(RandomNCardsOfColor(usedCards,c.name,document.getElementById(c.name).value));
 	})
+	console.log(selectedCards)
 
+}
+
+function GenerateAndDisplayCards(){
+	GenerateCards();
+	DisplayCards();
+}
+
+function DisplayCards(){
+	if(selectedCards==[]){return;}
+	console.log(selectedCards)
+	grouped = document.getElementById("grouped").checked
+	
+	s = ""
+	s += MakeLine("Disciple I", selectedCards.filter( x=> x.color=="Disciple I"))
+	s += MakeLine("Disciple II", selectedCards.filter( x=> x.color=="Disciple II"))
+	s += MakeLine("Disciple III", selectedCards.filter( x=> x.color=="Disciple III"))
+	
+	if(grouped){
+		colors.forEach( c=>{
+			s += MakeLine(c.name,selectedCards.filter( x=> x.color==c.name))
+		})
+	}
+	else{
+		s += MakeLine("Warriors",selectedCards.filter( x=> !x.color.includes("Disciple")))
+	}
+	
 	document.getElementById('cards').innerHTML=s
 	window.scrollTo(0, document.body.scrollHeight);
+	
 }
+
 
 </script>
 </head>
@@ -245,8 +278,12 @@ function GenerateCards(){
 	<div id="sets"><p4>Sets:</p4><br></div>
 	<br>
 	<div id="colors"><p4></p4><br></div>
+	Group by Color<label class="switch">
+	  <input id="grouped" type="checkbox" OnClick="DisplayCards()">
+	  <span class="slider round"></span>
+	</label>
 	<div id="cards"></div>
-	<button OnClick="GenerateCards()">Randomize</button>
+	<button OnClick="GenerateAndDisplayCards()">Randomize</button>
 	
 </body>
 <script>
