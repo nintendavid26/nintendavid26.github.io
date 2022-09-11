@@ -243,6 +243,7 @@ function GenerateCards(){
 
 function GenerateAndDisplayCards(){
 	GenerateCards();
+	selectedCards.sort((a,b)=> a.name < b.name ? -1 : 1)
 	DisplayCards();
 }
 
