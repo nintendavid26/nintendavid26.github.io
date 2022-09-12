@@ -35,10 +35,11 @@ function RandomNCardsOfColor(cards,color,n){
 	return c
 }
 
-function MakeLine(color, usedCards){
+function MakeLine(color, usedCards, onePerLine){
 	s =	usedCards.map(card => card.name + " ("+card.set+")")
 	.toString()
-	.replaceAll(",",", ")
+	.replaceAll(",",onePerLine ? "<br>" :", ")
+	console.log(onePerLine)
 	return "<b>"+color+"</b>: "+s+"<br>"
 	
 }
@@ -251,6 +252,7 @@ function DisplayCards(){
 	if(selectedCards==[]){return;}
 	console.log(selectedCards)
 	grouped = document.getElementById("grouped").checked
+	onePerLine = document.getElementById("onePerLine").checked
 	
 	s = ""
 	s += MakeLine("Disciple I", selectedCards.filter( x=> x.color=="Disciple I"))
@@ -259,11 +261,11 @@ function DisplayCards(){
 	
 	if(grouped){
 		colors.forEach( c=>{
-			s += MakeLine(c.name,selectedCards.filter( x=> x.color==c.name))
+			s += MakeLine(c.name,selectedCards.filter( x=> x.color==c.name), onePerLine)
 		})
 	}
 	else{
-		s += MakeLine("Warriors",selectedCards.filter( x=> !x.color.includes("Disciple")))
+		s += MakeLine("Warriors",selectedCards.filter( x=> !x.color.includes("Disciple")), onePerLine)
 	}
 	
 	document.getElementById('cards').innerHTML=s
@@ -281,6 +283,10 @@ function DisplayCards(){
 	<div id="colors"><p4></p4><br></div>
 	Group by Color<label class="switch">
 	  <input id="grouped" type="checkbox" OnClick="DisplayCards()">
+	  <span class="slider round"></span>
+	</label>
+	One Card per Line<label class="switch">
+	  <input id="onePerLine" type="checkbox" OnClick="DisplayCards()">
 	  <span class="slider round"></span>
 	</label>
 	<div id="cards"></div>
