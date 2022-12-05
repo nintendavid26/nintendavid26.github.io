@@ -108,6 +108,28 @@
 		{name:"Servants of Glaaki", color: "Red", set:"ROTO"},
 		{name:"Shoggoth", color: "Red", set:"ROTO"},
 		{name:"Samantha Spade, P.I.", color: "Red", set:"ROTO"},
+		{name:"Druid", color: "Disciple II", set:"COD"},
+		{name:"Fionn MacCumhal", color: "Red", set:"COD"},
+		{name:"Selkie", color: "Blue", set:"COD"},
+		{name:"Pooka", color: "Green", set:"COD"},
+		{name:"Bannan Sidhe", color: "Silver", set:"COD"},
+		{name:"Cuchulain", color: "Red", set:"COD"},
+		{name:"Medb", color: "Yellow", set:"COD"},
+		{name:"Firbolg", color: "Green", set:"COD"},
+		{name:"Formorian", color: "Red", set:"COD"},
+		{name:"Leprechaun", color: "Red", set:"COD"},
+		{name:"Archaka", color: "Disciple I", set:"ACF"},
+		{name:"Suvannamaccha", color: "Blue", set:"ACF"},
+		{name:"Rama", color: "Red", set:"ACF"},
+		{name:"Ichchhadharinag", color: "Yellow", set:"ACF"},
+		{name:"Marut", color: "Silver", set:"ACF"},
+		{name:"Naga", color: "Blue", set:"ACF"},
+		{name:"Gandaberunda", color: "Silver", set:"ACF"},
+		{name:"Vanaras", color: "Green", set:"ACF"},
+		{name:"Kimpurusha", color: "Red", set:"ACF"},
+		{name:"Rakshasa", color: "Red", set:"ACF"},
+		
+		
 		
 	]
 }
